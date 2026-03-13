@@ -1,0 +1,27 @@
+{
+  "name": "animal-daily",
+  "version": "0.1.0",
+  "private": true,
+  "description": "每日事项记录 + 等级评分系统",
+  "scripts": {
+    "dev:server": "pnpm --filter @animal-daily/server dev",
+    "dev:mobile": "pnpm --filter @animal-daily/mobile start",
+    "build:server": "pnpm --filter @animal-daily/server build",
+    "build:shared": "pnpm --filter @animal-daily/shared build",
+    "db:migrate": "pnpm --filter @animal-daily/server db:migrate",
+    "db:seed": "pnpm --filter @animal-daily/server db:seed",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "esbuild",
+      "prisma"
+    ]
+  }
+}
