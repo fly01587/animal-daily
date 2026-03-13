@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "Animal Daily",
+    "slug": "animal-daily",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "animal-daily",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "backgroundColor": "#F8FAFC"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.animaldaily.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#F8FAFC"
+      },
+      "package": "com.animaldaily.app"
+    },
+    "plugins": [
+      "expo-router"
+    ]
+  }
+}
