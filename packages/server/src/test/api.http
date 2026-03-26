@@ -1,0 +1,240 @@
+﻿### Animal Daily API Test
+### 说明：这是标准 .http 请求格式（无脚本块）
+### 使用方式：先执行登录/注册，手动把 token 和 id 填到顶部变量
+### 注意：
+### 1) @accessToken / @refreshToken 不要加引号
+### 2) /auth/refresh 成功后会返回新的 refreshToken，旧 refreshToken 立即失效（需同步更新变量）
+
+@baseUrl = http://localhost:3000
+@email = 123456@qq.com
+@password = a12345678
+@nickname = ApiTester
+@accessToken = eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlM2Y5MTdjNC1iM2YwLTRkYTEtYjhkZC0xN2QxZmM3YmQwZDIiLCJlbWFpbCI6IjEyMzQ1NkBxcS5jb20iLCJpYXQiOjE3NzQ0MDk3MjksImV4cCI6MTc3NDQxMDYyOX0.RR2GNnR9O8_LZtl1XEcyrLzMVRtICZuz-b5BT7adfsQ
+@refreshToken = 30107ae2313a320849f94f076c068a0d08aa007c5892f565bc59a8d81dc9d947
+@categoryId =
+@activityId =
+@testDate = 2026-03-24
+@testYear = 2026
+@testMonth = 3
+@attachmentId =
+
+### 1) 健康检查
+GET {{baseUrl}}/api/v1/ping
+Accept: application/json
+
+### 2) 注册
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}",
+  "nickname": "{{nickname}}"
+}
+
+### 3) 登录（从响应里复制 accessToken / refreshToken 到顶部变量）
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}",
+  "deviceInfo": "http-client"
+}
+
+### 4) 刷新 token
+POST {{baseUrl}}/api/v1/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+### 5) 登出
+POST {{baseUrl}}/api/v1/auth/logout
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+### 6) 获取用户资料
+GET {{baseUrl}}/api/v1/user/profile
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### 7) 更新用户资料
+PATCH {{baseUrl}}/api/v1/user/profile
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "nickname": "ApiTesterUpdated",
+  "timezone": "Asia/Shanghai",
+  "dailyReminderTime": "21:30",
+  "reminderEnabled": true
+}
+
+### 8) 修改密码
+POST {{baseUrl}}/api/v1/user/change-password
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "oldPassword": "{{password}}",
+  "newPassword": "NewPassw0rd123"
+}
+
+### 9) 分类列表
+GET {{baseUrl}}/api/v1/categories
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### 10) 新建分类（从响应复制 id 到 @categoryId）
+POST {{baseUrl}}/api/v1/categories
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "TestCategory",
+  "icon": "T",
+  "color": "#22C55E"
+}
+
+### 11) 修改分类
+PATCH {{baseUrl}}/api/v1/categories/{{categoryId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "TestCategoryRenamed",
+  "icon": "R",
+  "color": "#2563EB"
+}
+
+### 12) 分类排序（ids 按你实际分类 id 填）
+PUT {{baseUrl}}/api/v1/categories/sort
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "ids": ["{{categoryId}}"]
+}
+
+### 13) 删除分类
+DELETE {{baseUrl}}/api/v1/categories/{{categoryId}}
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### 14) 新建活动（从响应复制 id 到 @activityId）
+POST {{baseUrl}}/api/v1/activities
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "content": "API test activity",
+  "level": 4,
+  "categoryId": "{{categoryId}}",
+  "durationMinutes": 60,
+  "date": "{{testDate}}"
+}
+
+### 15) 活动列表（按日期）
+GET {{baseUrl}}/api/v1/activities?date={{testDate}}
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### 16) 修改活动
+PATCH {{baseUrl}}/api/v1/activities/{{activityId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "content": "API test activity updated",
+  "level": 5,
+  "durationMinutes": 90
+}
+
+### 17) 删除活动
+DELETE {{baseUrl}}/api/v1/activities/{{activityId}}
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### 18) 每日总结（按日）
+GET {{baseUrl}}/api/v1/daily-summary?date={{testDate}}
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### 19) 更新每日总结（手动等级/备注）
+PATCH {{baseUrl}}/api/v1/daily-summary
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "date": "{{testDate}}",
+  "manualLevel": 4,
+  "note": "updated by api.http"
+}
+
+### 20) 每日总结（按月）
+GET {{baseUrl}}/api/v1/daily-summary/month?year={{testYear}}&month={{testMonth}}
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### 21) 每日总结（日历）
+GET {{baseUrl}}/api/v1/daily-summary/calendar?year={{testYear}}&month={{testMonth}}
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### 22) 市场监控（公开接口）
+GET {{baseUrl}}/api/v1/market-monitor?days=90
+Accept: application/json
+
+### 23) 市场监控（非法 days，测试默认值）
+GET {{baseUrl}}/api/v1/market-monitor?days=abc
+Accept: application/json
+
+### 24) 未鉴权测试（预期 401）
+GET {{baseUrl}}/api/v1/user/profile
+Accept: application/json
+
+### 25) AI 流式接口（需服务端配置 OPENAI_API_KEY）
+POST {{baseUrl}}/api/v1/ai/chat-stream
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "message": "请基于我今天的记录给我 3 条简短建议"
+}
+
+### 26) 上传 AI 附件（图片/TXT/Markdown/JSON/CSV/XML/PDF）
+### 执行后，把响应 data.id 填到 @attachmentId
+POST {{baseUrl}}/api/v1/ai/upload
+Authorization: Bearer {{accessToken}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="sample.txt"
+Content-Type: text/plain
+
+这是一个测试附件，请帮我总结 3 个重点。
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 27) AI + 附件联动
+POST {{baseUrl}}/api/v1/ai/chat-stream
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "message": "请结合附件内容给我执行建议",
+  "attachmentIds": ["{{attachmentId}}"]
+}
+
+### 28) AI Function Calling 验证（提示模型先调工具）
+POST {{baseUrl}}/api/v1/ai/chat-stream
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "message": "请先调用 get_daily_summary_by_date 和 get_activities_by_date 查询 2026-03-24 的真实记录，再给我 3 条具体改进建议。"
+}

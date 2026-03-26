@@ -1,0 +1,108 @@
+/* ============================================================
+   Animal Daily — Design Tokens
+   Matched to Figma design: anima-daily
+   ============================================================ */
+
+:root {
+  /* === Background === */
+  --bg-base: #f0f4f8;             /* Catskill White - page background */
+  --bg-card: #ffffff;              /* White - card surface */
+  --bg-card-hover: #f8faff;
+  --bg-section: #f0f4f8;          /* Catskill White - section bg inside cards */
+  --bg-input: #e8f0fe;            /* Zumthor - input field background */
+  --bg-overlay: rgba(0, 0, 0, 0.4);
+  --bg-gradient-start: #dbeafe;   /* Pattens Blue */
+  --bg-gradient-end: #f0f4f8;     /* Catskill White */
+  --bg-dark: #0f172a;             /* Firefly - dark overlay */
+
+  /* === Text === */
+  --text-primary: #1e293b;        /* Mirage - headings & body */
+  --text-secondary: #475569;      /* Fiord - labels */
+  --text-muted: #64748b;          /* Slate Gray - subtle text */
+  --text-inverse: #ffffff;        /* White - on dark/primary bg */
+
+  /* === Primary / Accent === */
+  --primary: #4f46e5;             /* Royal Blue - links, accents */
+  --primary-hover: #4338ca;
+  --primary-light: #ebe9ff;
+  --primary-btn-bg: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+  --primary-btn-text: #ffffff;
+
+  /* === Selected / Active State === */
+  --active-bg: #dbeafe;           /* Pattens Blue - selected button bg */
+  --active-border: #93c5fd;       /* Anakiwa - selected button border */
+  --active-text: #1e40af;         /* Persian Blue - selected text */
+
+  /* === Borders === */
+  --border: #e2e8f0;              /* Mystic - dividers, card borders */
+  --border-input: #e2e8f0;        /* Mystic - input borders */
+  --border-default: #cbd5e1;      /* Geyser - button borders */
+  --border-focus: #4f46e5;        /* Royal Blue */
+
+  /* === Shadows === */
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 8px 24px rgba(15, 23, 42, 0.12);
+  --shadow-section: 0 -4px 24px rgba(15, 23, 42, 0.06);
+  --shadow-fab: 0 4px 16px rgba(79, 70, 229, 0.35);
+
+  /* === Level Colors === */
+  --level-5: #FF6B35;
+  --level-4: #8B5CF6;
+  --level-3: #22C55E;
+  --level-2: #9CA3AF;
+  --level-1: #DC2626;
+
+  /* === Category Colors === */
+  --cat-work: #3B82F6;
+  --cat-study: #8B5CF6;
+  --cat-life: #22C55E;
+  --cat-play: #F59E0B;
+  --cat-sport: #EF4444;
+  --cat-other: #6B7280;
+
+  /* === Danger === */
+  --danger: #DC2626;
+  --danger-light: #fef2f2;
+
+  /* === Button Styles === */
+  --btn-secondary-bg: rgba(255, 255, 255, 0.82);  /* White 82% */
+  --btn-secondary-border: #cbd5e1;                  /* Geyser */
+  --btn-secondary-text: #64748b;                     /* Slate Gray */
+  --btn-muted-bg: #e2e8f0;                          /* Mystic */
+  --btn-muted-text: #334155;                         /* Pickled Bluewood */
+
+  /* === Radius === */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 14px;
+  --radius-2xl: 32px;
+  --radius-3xl: 44px;
+  --radius-full: 9999px;
+
+  /* === Spacing === */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 20px;
+  --space-2xl: 24px;
+  --space-3xl: 32px;
+  --space-4xl: 40px;
+
+  /* === Typography === */
+  --font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --text-xs: 10px;
+  --text-sm: 12px;
+  --text-base: 14px;
+  --text-lg: 16px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 32px;
+
+  /* === Layout === */
+  --max-width: 430px;
+  --tab-bar-height: 56px;
+  --header-height: 52px;
+}

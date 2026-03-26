@@ -4,8 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "predev": "pnpm --filter @animal-daily/shared build",
     "dev": "tsx watch src/index.ts",
+    "prebuild": "pnpm --filter @animal-daily/shared build",
     "build": "tsc",
+    "prestart": "pnpm --filter @animal-daily/shared build",
     "start": "node dist/index.js",
     "typecheck": "tsc --noEmit",
     "db:migrate": "prisma migrate dev",

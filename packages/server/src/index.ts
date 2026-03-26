@@ -6,6 +6,8 @@ import { activity } from './routes/activity.js'
 import { category } from './routes/category.js'
 import { dailySummary } from './routes/daily-summary.js'
 import { user } from './routes/user.js'
+import { ai } from './routes/ai.js'
+import { marketMonitor } from './routes/market-monitor.js'
 import { errorHandler } from './middleware/error.js'
 import { logger } from './lib/logger.js'
 
@@ -24,6 +26,8 @@ app.route('/api/v1/activities', activity)
 app.route('/api/v1/categories', category)
 app.route('/api/v1/daily-summary', dailySummary)
 app.route('/api/v1/user', user)
+app.route('/api/v1/ai', ai)
+app.route('/api/v1/market-monitor', marketMonitor)
 
 // 启动服务
 const port = Number(process.env.PORT) || 3000

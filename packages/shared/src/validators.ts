@@ -68,6 +68,7 @@ export const updateDailySummarySchema = z.object({
 
 export const updateProfileSchema = z.object({
   nickname: z.string().min(1).max(50).optional(),
+  avatarUrl: z.string().optional(),
   timezone: z.string().optional(),
   dailyReminderTime: z
     .string()

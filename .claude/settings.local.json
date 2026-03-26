@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(done)",
+      "Bash(node scrape_fix.js)",
+      "Bash(node -e \":*)"
+    ]
+  }
+}

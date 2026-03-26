@@ -41,6 +41,7 @@ user.patch('/profile', async (c) => {
     where: { id: userId },
     data: {
       ...(body.nickname !== undefined && { nickname: body.nickname }),
+      ...(body.avatarUrl !== undefined && { avatarUrl: body.avatarUrl }),
       ...(body.timezone !== undefined && { timezone: body.timezone }),
       ...(body.dailyReminderTime !== undefined && { dailyReminderTime: body.dailyReminderTime }),
       ...(body.reminderEnabled !== undefined && { reminderEnabled: body.reminderEnabled }),

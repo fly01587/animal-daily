@@ -6,8 +6,10 @@
   "scripts": {
     "dev:server": "pnpm --filter @animal-daily/server dev",
     "dev:mobile": "pnpm --filter @animal-daily/mobile start",
+    "dev:web": "pnpm --filter @animal-daily/web dev",
     "build:server": "pnpm --filter @animal-daily/server build",
     "build:shared": "pnpm --filter @animal-daily/shared build",
+    "build:web": "pnpm --filter @animal-daily/web build",
     "db:migrate": "pnpm --filter @animal-daily/server db:migrate",
     "db:seed": "pnpm --filter @animal-daily/server db:seed",
     "typecheck": "pnpm -r typecheck"

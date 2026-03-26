@@ -1,0 +1,36 @@
+/* LevelCard.module.css */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-md);
+}
+
+.label {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.levelRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.levelIcon {
+  font-size: var(--text-3xl);
+  line-height: 1;
+}
+
+.levelName {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+}
+
+.summary {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-top: var(--space-sm);
+}

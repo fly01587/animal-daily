@@ -1,0 +1,144 @@
+/* PageShell — shared outer wrapper matching Figma design */
+
+.shell {
+  position: relative;
+  height: 100dvh;
+  min-height: 100dvh;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-base);
+  overflow: hidden;
+}
+
+/* Top gradient decoration */
+.gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 260px;
+  /* background: linear-gradient(180deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%); */
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Main content area — the rounded card section */
+.section {
+  position: relative;
+  z-index: 5;
+  flex: 1;
+  min-height: 0;
+  border: 1px solid gray;
+  /* margin: var(--space-md) var(--space-md) 0; */
+  /* border-radius: var(--radius-3xl) var(--radius-3xl) 0 0; */
+  box-shadow: var(--shadow-section);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.3) 100%);
+}
+
+.sectionInner {
+  flex: 1;
+  min-height: 0;
+  background: var(--bg-section);
+  /* border-radius: var(--radius-2xl) var(--radius-2xl) 0 0; */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.sectionInnerScrollable {
+  overflow-y: auto;
+}
+
+.sectionInnerNoScroll {
+  overflow: hidden;
+}
+
+.sectionContent {
+  flex: 1;
+  display: flex;
+  padding: var(--space-2xl) var(--space-xl);
+  min-height: 0;
+  overflow: auto;
+}
+
+/* Footer tab bar inside the section */
+.footer {
+  background: var(--bg-section);
+  border-top: 0.8px solid var(--border);
+  border-radius: 0 0 var(--radius-2xl) var(--radius-2xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: var(--tab-bar-height);
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+}
+
+.footerTab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  transition: color 0.15s;
+  position: relative;
+  gap: 2px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.footerTab:hover {
+  color: var(--text-secondary);
+}
+
+.footerTabActive {
+  color: var(--primary, #3B82F6);
+  font-weight: 600;
+}
+
+.footerTabIcon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.footerTabLabel {
+  font-size: 11px;
+  line-height: 1;
+}
+
+.footerTabIndicator {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: var(--primary, #3B82F6);
+}
+
+/* Dark bottom bar indicator (optional decoration) */
+.bottomIndicator {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 134px;
+  height: 5px;
+  border-radius: var(--radius-xl);
+  background: var(--bg-dark);
+  z-index: 20;
+}

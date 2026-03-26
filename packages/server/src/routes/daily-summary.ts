@@ -1,8 +1,7 @@
+import { LEVEL, calendarQuerySchema, dateQuerySchema, getLevelMeta, updateDailySummarySchema } from '@animal-daily/shared'
 import { Hono } from 'hono'
-import { authMiddleware, type AuthEnv } from '../middleware/auth.js'
 import { db } from '../lib/db.js'
-import { updateDailySummarySchema, dateQuerySchema, calendarQuerySchema } from '@animal-daily/shared'
-import { getLevelMeta, LEVEL } from '@animal-daily/shared'
+import { authMiddleware, type AuthEnv } from '../middleware/auth.js'
 
 const dailySummary = new Hono<AuthEnv>()
 
@@ -13,11 +12,12 @@ dailySummary.get('/', async (c) => {
   const userId = c.get('userId')
   const { date } = dateQuerySchema.parse(c.req.query())
   const targetDate = new Date(date)
-
+  
   const summary = await db.dailySummary.findUnique({
     where: { userId_date: { userId, date: targetDate } },
   })
 
+  console.log(" 统计的问题 ",targetDate,summary)
   // 获取当日等级分布
   const activities = await db.activity.findMany({
     where: { userId, date: targetDate },
@@ -69,6 +69,116 @@ dailySummary.get('/', async (c) => {
     },
     message: 'ok',
   })
+})
+
+dailySummary.get("/month",async (c) => {
+  const userId = c.get('userId')
+  const { year, month } = calendarQuerySchema.parse(c.req.query())
+  const startDate = new Date(year, month - 1, 1)
+  const endDate = new Date(year, month, 0) // 当月最后一天
+
+  const summaries = await db.dailySummary.findMany({
+    where: {
+      userId,
+      date: { gte: startDate, lte: endDate },
+    },
+    orderBy: { date: 'asc' },
+  })
+
+
+  return c.json({ code: 0, data: summaries, message: 'ok' })
+})
+
+dailySummary.get('/stats', async (c) => {
+  const userId = c.get('userId')
+  const { year, month } = calendarQuerySchema.parse(c.req.query())
+
+  const startDate = new Date(year, month - 1, 1)
+  const nextMonthStart = new Date(year, month, 1)
+
+  const summaries = await db.dailySummary.findMany({
+    where: {
+      userId,
+      date: { gte: startDate, lt: nextMonthStart },
+    },
+    orderBy: { date: 'asc' },
+    select: {
+      date: true,
+      autoLevel: true,
+      manualLevel: true,
+      totalActivities: true,
+      totalMinutes: true,
+    },
+  })
+
+  const activities = await db.activity.findMany({
+    where: {
+      userId,
+      date: { gte: startDate, lt: nextMonthStart },
+    },
+    select: { level: true },
+  })
+
+  const levelDistribution: Record<number, number> = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 }
+  for (const item of activities) {
+    levelDistribution[item.level] = (levelDistribution[item.level] ?? 0) + 1
+  }
+
+  let totalActivities = 0
+  let totalMinutes = 0
+  let activeDays = 0
+  let weightedLevelSum = 0
+
+  let bestStreak = 0
+  let currentStreak = 0
+  let previousDate: Date | null = null
+
+  for (const summary of summaries) {
+    const effectiveLevel = summary.manualLevel ?? summary.autoLevel
+    totalActivities += summary.totalActivities
+    totalMinutes += summary.totalMinutes
+
+    if (summary.totalActivities > 0) {
+      activeDays += 1
+      weightedLevelSum += effectiveLevel * summary.totalActivities
+    }
+
+    const isEliteOrAbove = effectiveLevel >= LEVEL.ELITE
+    if (isEliteOrAbove) {
+      const currentDate = new Date(summary.date)
+      currentDate.setHours(0, 0, 0, 0)
+
+      if (previousDate) {
+        const dayDiff = (currentDate.getTime() - previousDate.getTime()) / (24 * 60 * 60 * 1000)
+        currentStreak = dayDiff === 1 ? currentStreak + 1 : 1
+      } else {
+        currentStreak = 1
+      }
+
+      previousDate = currentDate
+      bestStreak = Math.max(bestStreak, currentStreak)
+    } else {
+      currentStreak = 0
+      previousDate = null
+    }
+  }
+
+  const avgLevel = totalActivities > 0
+    ? Math.max(LEVEL.DONE, Math.min(LEVEL.HANG, Math.round(weightedLevelSum / totalActivities)))
+    : LEVEL.DONE
+
+  const data = {
+    year,
+    month,
+    avgLevel,
+    levelDistribution,
+    bestStreak,
+    totalActivities,
+    totalMinutes,
+    activeDays,
+  }
+
+  return c.json({ code: 0, data, message: 'ok' })
 })
 
 /** 手动覆盖每日等级 / 添加备注 */

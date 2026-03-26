@@ -2,7 +2,7 @@
 // Animal Daily — 共享类型定义
 // ============================================================
 
-import type { LevelValue } from './constants'
+import type { LevelValue } from './constants.js'
 
 /** 用户 */
 export interface User {
@@ -50,6 +50,18 @@ export interface DailySummary {
   totalActivities: number
   totalMinutes: number
   note: string | null
+}
+
+/** 月度统计 */
+export interface MonthlyStats {
+  year: number
+  month: number
+  avgLevel: LevelValue
+  levelDistribution: Record<number, number>
+  bestStreak: number
+  totalActivities: number
+  totalMinutes: number
+  activeDays: number
 }
 
 /** 日历项 */
